@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login | ProjectIQ{% endblock %}
+{% block content %}
+<main class="auth-page">
+  <section class="auth-card">
+    <h1>Welcome back</h1>
+    <p>Log in to continue to your recommendation dashboard.</p>
+    <form method="post" action="{{ url_for('auth.login_post') }}">
+      <label>Email</label>
+      <input name="email" type="email" required />
+      <label>Password</label>
+      <input name="password" type="password" required />
+      <button class="btn primary" type="submit">Login</button>
+    </form>
+    <p class="auth-foot">
+      New user?
+      <a href="{{ url_for('auth.signup') }}">Create an account</a>
+    </p>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | ProjectIQ{% endblock %}
+{% block content %}
+<div class="app-shell">
+  <header class="top-bar">
+    <div>
+      <h1>Welcome, {{ student_name }}</h1>
+      <p>Configure your profile and generate project recommendations.</p>
+    </div>
+    <div class="top-actions">
+      <label class="theme-toggle" for="themeSwitch"><span>Dark Mode</span><input id="themeSwitch" type="checkbox" /></label>
+      <form method="post" action="{{ url_for('auth.logout') }}">
+        <button class="btn ghost" type="submit">Logout</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="layout-grid">
+    <section class="panel form-panel">
+      <h2>Student Questionnaire</h2>
+      <form id="recommendationForm">
+        <label for="core_skills">1) Core Skills</label>
+        <select id="core_skills" multiple>
+          <option>Python</option>
+          <option>Java</option>
+          <option>C++</option>
+          <option>JavaScript</option>
+          <option>Machine Learning</option>
+          <option>Deep Learning</option>
+          <option>Web Development (Frontend/Backend)</option>
+          <option>Data Analysis / Visualization</option>
+          <option>IoT / Embedded Systems</option>
+          <option>Cloud / DevOps</option>
+        </select>
+
+        <label for="other_skills">Other Skills (custom)</label>
+        <input id="other_skills" type="text" placeholder="e.g. SQL, PyTorch, React" />
+
+        <label for="skill_confidence_level">2) Skill Confidence Level</label>
+        <select id="skill_confidence_level">
+          <option value="">Select confidence</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+
+        <label for="interests">3) Interest Area</label>
+        <input id="interests" type="text" value="{{ profile.interests if profile else '' }}" placeholder="e.g. healthcare prediction, smart cities" />
+
+        <label for="domains">4) Domain Preference</label>
+        <select id="domains" multiple>
+          <option>Artificial Intelligence</option>
+          <option>Machine Learning</option>
+          <option>Data Science</option>
+          <option>Web Development</option>
+          <option>Mobile Development</option>
+          <option>IoT</option>
+          <option>Cybersecurity</option>
+          <option>Cloud Computing</option>
+          <option>Blockchain</option>
+          <option>NLP</option>
+          <option>Computer Vision</option>
+          <option>Education</option>
+        </select>
+
+        <label for="project_complexity_preference">5) Project Complexity Preference</label>
+        <select id="project_complexity_preference">
+          <option value="">Select complexity preference</option>
+          <option value="simple">Simple (quick implementation)</option>
+          <option value="moderate">Moderate (balanced)</option>
+          <option value="complex">Complex (research-level / advanced)</option>
+        </select>
+
+        <label for="time_available">6) Time Availability</label>
+        <select id="time_available">
+          <option value="">Select timeline</option>
+          <option value="short">Short (1-2 weeks)</option>
+          <option value="medium">Medium (3-6 weeks)</option>
+          <option value="long">Long (6+ weeks)</option>
+        </select>
+
+        <label for="team_or_individual">7) Team or Individual</label>
+        <select id="team_or_individual">
+          <option value="">Select mode</option>
+          <option value="solo">Solo</option>
+          <option value="team">Team (2-4 members)</option>
+        </select>
+
+        <label for="hardware_availability">8) Hardware Availability</label>
+        <select id="hardware_availability">
+          <option value="">Select hardware access</option>
+          <option value="none">No hardware</option>
+          <option value="basic">Basic (Arduino, sensors)</option>
+          <option value="advanced">Advanced (Raspberry Pi, GPUs, devices)</option>
+        </select>
+
+        <label for="preferred_project_type">9) Preferred Project Type</label>
+        <select id="preferred_project_type">
+          <option value="">Select project type</option>
+          <option value="application">Application (web/mobile)</option>
+          <option value="ml_model">ML model</option>
+          <option value="research">Research-oriented</option>
+          <option value="system">System-based (IoT / hardware)</option>
+        </select>
+
+        <label for="dataset_comfort">10) Dataset Comfort</label>
+        <select id="dataset_comfort">
+          <option value="">Select comfort level</option>
+          <option value="yes">Yes (clean + preprocess)</option>
+          <option value="somewhat">Somewhat</option>
+          <option value="ready_only">Prefer ready-to-use data</option>
+        </select>
+
+        <label for="learning_vs_execution">11) Learning vs Execution</label>
+        <select id="learning_vs_execution">
+          <option value="">Select priority</option>
+          <option value="learn">Learn new concepts</option>
+          <option value="build">Build something practical</option>
+          <option value="both">Both equally</option>
+        </select>
+
+        <label for="stretch_willingness">12) Stretch Willingness</label>
+        <select id="stretch_willingness">
+          <option value="">Select openness</option>
+          <option value="yes">Yes</option>
+          <option value="maybe">Maybe</option>
+          <option value="no">No</option>
+        </select>
+
+        <label for="experience_level">Experience Level (for feasibility)</label>
+        <select id="experience_level">
+          <option value="">Select level</option>
+          <option value="beginner" {% if profile and profile.experience_level=='beginner' %}selected{% endif %}>Beginner</option>
+          <option value="intermediate" {% if profile and profile.experience_level=='intermediate' %}selected{% endif %}>Intermediate</option>
+          <option value="advanced" {% if profile and profile.experience_level=='advanced' %}selected{% endif %}>Advanced</option>
+        </select>
+
+        <button class="btn primary" type="submit">Generate Recommendations</button>
+      </form>
+    </section>
+
+    <section class="panel results-panel">
+      <div class="results-header"><h2>Recommendations</h2><span id="statusText">Ready.</span></div>
+      <div id="resultsContainer" class="results-grid"></div>
+    </section>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

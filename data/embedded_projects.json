@@ -1,0 +1,211 @@
+[
+  {
+    "title": "Healthcare Readmission Risk Prediction",
+    "summary": "Build a risk model for 30-day hospital readmission using structured EHR features and interpretable ML.",
+    "domain": [
+      "Machine Learning",
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "skills": [
+      "python",
+      "ml",
+      "pandas",
+      "scikit-learn"
+    ],
+    "difficulty": "intermediate",
+    "complexity": "medium",
+    "dataset_link": "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008"
+  },
+  {
+    "title": "Diabetic Retinopathy Image Classification",
+    "summary": "Train a computer vision model to classify diabetic retinopathy severity from retinal fundus images.",
+    "domain": [
+      "Computer Vision",
+      "Machine Learning",
+      "Artificial Intelligence"
+    ],
+    "skills": [
+      "python",
+      "pytorch",
+      "opencv",
+      "ml"
+    ],
+    "difficulty": "advanced",
+    "complexity": "long",
+    "dataset_link": "https://www.kaggle.com/competitions/diabetic-retinopathy-detection"
+  },
+  {
+    "title": "Clinical Text Summarization for Discharge Notes",
+    "summary": "Develop an NLP pipeline to summarize long clinical discharge notes into concise summaries.",
+    "domain": [
+      "NLP",
+      "Artificial Intelligence"
+    ],
+    "skills": [
+      "python",
+      "nlp",
+      "transformers",
+      "ml"
+    ],
+    "difficulty": "advanced",
+    "complexity": "long",
+    "dataset_link": "https://physionet.org/content/mimiciii/1.4/"
+  },
+  {
+    "title": "Heart Disease Risk Scoring Dashboard",
+    "summary": "Create a web dashboard that predicts heart disease risk and visualizes key factors for clinicians.",
+    "domain": [
+      "Data Science",
+      "Web Development",
+      "Machine Learning"
+    ],
+    "skills": [
+      "python",
+      "flask",
+      "sql",
+      "ml"
+    ],
+    "difficulty": "beginner",
+    "complexity": "short",
+    "dataset_link": "https://archive.ics.uci.edu/dataset/45/heart+disease"
+  },
+  {
+    "title": "Cancer Survival Analysis",
+    "summary": "Estimate survival probability and risk groups for cancer cohorts using classical ML and feature analysis.",
+    "domain": [
+      "Data Science",
+      "Machine Learning"
+    ],
+    "skills": [
+      "python",
+      "ml",
+      "statistics",
+      "pandas"
+    ],
+    "difficulty": "intermediate",
+    "complexity": "medium",
+    "dataset_link": "https://www.kaggle.com/datasets/ankushpanday1/cancer-data"
+  },
+  {
+    "title": "Air Quality Forecasting with IoT Sensors",
+    "summary": "Forecast PM2.5 levels from sensor streams and weather variables for urban air monitoring.",
+    "domain": [
+      "IoT",
+      "Machine Learning",
+      "Cloud Computing"
+    ],
+    "skills": [
+      "python",
+      "time series",
+      "ml",
+      "mqtt"
+    ],
+    "difficulty": "intermediate",
+    "complexity": "medium",
+    "dataset_link": "https://archive.ics.uci.edu/dataset/360/air+quality"
+  },
+  {
+    "title": "Phishing URL Detection Service",
+    "summary": "Build a cybersecurity classifier that identifies phishing URLs using lexical and host-based features.",
+    "domain": [
+      "Cybersecurity",
+      "Machine Learning"
+    ],
+    "skills": [
+      "python",
+      "ml",
+      "scikit-learn",
+      "feature engineering"
+    ],
+    "difficulty": "intermediate",
+    "complexity": "medium",
+    "dataset_link": "https://archive.ics.uci.edu/dataset/327/phishing+websites"
+  },
+  {
+    "title": "Cloud Spend Anomaly Detection",
+    "summary": "Detect unusual cloud cost spikes and generate alerts with probable root-cause tags.",
+    "domain": [
+      "Cloud Computing",
+      "Data Science"
+    ],
+    "skills": [
+      "python",
+      "sql",
+      "statistics",
+      "flask"
+    ],
+    "difficulty": "intermediate",
+    "complexity": "medium",
+    "dataset_link": "https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop"
+  },
+  {
+    "title": "Academic Credential Verification on Blockchain",
+    "summary": "Issue and verify tamper-resistant academic credentials through smart contracts and web interface.",
+    "domain": [
+      "Blockchain",
+      "Web Development"
+    ],
+    "skills": [
+      "solidity",
+      "javascript",
+      "web3",
+      "react"
+    ],
+    "difficulty": "advanced",
+    "complexity": "long",
+    "dataset_link": "https://www.kaggle.com/datasets/mohamedhanyyy/coursera-courses-dataset"
+  },
+  {
+    "title": "Mental Health Signal Mining from Social Media",
+    "summary": "Extract depression and anxiety indicators from text posts with explainable NLP features.",
+    "domain": [
+      "NLP",
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "skills": [
+      "python",
+      "nlp",
+      "ml",
+      "pandas"
+    ],
+    "difficulty": "intermediate",
+    "complexity": "medium",
+    "dataset_link": "https://www.kaggle.com/datasets/infamouscoder/depression-reddit-cleaned"
+  },
+  {
+    "title": "Nutrition Recommendation Mobile App",
+    "summary": "Recommend meal plans based on health metrics and dietary goals in a mobile client.",
+    "domain": [
+      "Mobile Development",
+      "Data Science"
+    ],
+    "skills": [
+      "flutter",
+      "firebase",
+      "python",
+      "api integration"
+    ],
+    "difficulty": "beginner",
+    "complexity": "medium",
+    "dataset_link": "https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews"
+  },
+  {
+    "title": "Student Dropout Early Warning System",
+    "summary": "Predict dropout risk using attendance, grades, and engagement data for intervention planning.",
+    "domain": [
+      "Data Science",
+      "Machine Learning"
+    ],
+    "skills": [
+      "python",
+      "ml",
+      "pandas",
+      "sql"
+    ],
+    "difficulty": "beginner",
+    "complexity": "short",
+    "dataset_link": "https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success"
+  }
+]
