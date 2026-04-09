@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% block title %}Student Questionnaire | ProjectIQ{% endblock %}
+{% block content %}
+<main class="landing-root questionnaire-root">
+  <div class="landing-bg" aria-hidden="true"></div>
+  <div class="landing-shell">
+    <div class="app-shell">
+      <header class="top-bar">
+        <div>
+          <h1>Profile setup</h1>
+          <p>Tell us about your skills, goals, and constraints. You’ll get project ideas with rationale and a build plan.</p>
+        </div>
+        <div class="top-actions">
+          <label class="theme-toggle" for="themeSwitch"><span>Dark Mode</span><input id="themeSwitch" type="checkbox" /></label>
+          <form method="post" action="{{ url_for('auth.logout') }}">
+            <button class="btn ghost" type="submit">Logout</button>
+          </form>
+        </div>
+      </header>
+
+      <section class="layout-grid">
+        <section class="panel form-panel">
+        <div class="form-head">
+          <div>
+            <h2>Student Questionnaire</h2>
+            <p class="muted">Structured inputs help the recommender produce higher-quality, explainable results.</p>
+          </div>
+          <div class="stepper" aria-hidden="true">
+            <span class="step active"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+          </div>
+        </div>
+        <form id="questionnaireForm">
+        <div class="q-step" data-step="0">
+          <div class="q-title">Skills</div>
+          <div class="q-help">Pick what you can actually use in the build. This impacts skill match and the recommended tech stack.</div>
+
+          <label for="core_skills">Core Skills</label>
+          <div class="ms" data-ms="core_skills" role="group" aria-label="Core skills multi select">
+            <button class="ms-trigger" type="button">Select skills</button>
+            <div class="ms-chips" aria-live="polite"></div>
+            <div class="ms-menu" hidden>
+              <label class="ms-opt"><input type="checkbox" value="Python" />Python</label>
+              <label class="ms-opt"><input type="checkbox" value="Java" />Java</label>
+              <label class="ms-opt"><input type="checkbox" value="C++" />C++</label>
+              <label class="ms-opt"><input type="checkbox" value="JavaScript" />JavaScript</label>
+              <label class="ms-opt"><input type="checkbox" value="Machine Learning" />Machine Learning</label>
+              <label class="ms-opt"><input type="checkbox" value="Deep Learning" />Deep Learning</label>
+              <label class="ms-opt"><input type="checkbox" value="Web Development (Frontend/Backend)" />Web Development (Frontend/Backend)</label>
+              <label class="ms-opt"><input type="checkbox" value="Data Analysis / Visualization" />Data Analysis / Visualization</label>
+              <label class="ms-opt"><input type="checkbox" value="IoT / Embedded Systems" />IoT / Embedded Systems</label>
+              <label class="ms-opt"><input type="checkbox" value="Cloud / DevOps" />Cloud / DevOps</label>
+            </div>
+            <input id="core_skills" type="hidden" value="" />
+          </div>
+
+          <label for="other_skills">Other Skills (custom)</label>
+          <input id="other_skills" type="text" placeholder="e.g. SQL, PyTorch, React" />
+
+          <label for="skill_confidence_level">Skill Confidence Level</label>
+          <select id="skill_confidence_level">
+            <option value="">Select confidence</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="q-step" data-step="1" hidden>
+          <div class="q-title">Intent</div>
+          <div class="q-help">Be specific. This becomes the semantic query for the embedding model.</div>
+
+          <label for="interests">Interest Area</label>
+          <input id="interests" type="text" value="{{ profile.interests if profile else '' }}" placeholder="e.g. fraud detection for fintech, crime hotspot forecasting" />
+
+          <label for="domains">Domain Preference</label>
+          <div class="ms" data-ms="domains" role="group" aria-label="Domain preference multi select">
+            <button class="ms-trigger" type="button">Select domains</button>
+            <div class="ms-chips" aria-live="polite"></div>
+            <div class="ms-menu" hidden>
+              <label class="ms-opt"><input type="checkbox" value="Artificial Intelligence" />Artificial Intelligence</label>
+              <label class="ms-opt"><input type="checkbox" value="Machine Learning" />Machine Learning</label>
+              <label class="ms-opt"><input type="checkbox" value="Data Science" />Data Science</label>
+              <label class="ms-opt"><input type="checkbox" value="Web Development" />Web Development</label>
+              <label class="ms-opt"><input type="checkbox" value="Mobile Development" />Mobile Development</label>
+              <label class="ms-opt"><input type="checkbox" value="IoT" />IoT</label>
+              <label class="ms-opt"><input type="checkbox" value="Cybersecurity" />Cybersecurity</label>
+              <label class="ms-opt"><input type="checkbox" value="Cloud Computing" />Cloud Computing</label>
+              <label class="ms-opt"><input type="checkbox" value="Blockchain" />Blockchain</label>
+              <label class="ms-opt"><input type="checkbox" value="NLP" />NLP</label>
+              <label class="ms-opt"><input type="checkbox" value="Computer Vision" />Computer Vision</label>
+              <label class="ms-opt"><input type="checkbox" value="Education" />Education</label>
+            </div>
+            <input id="domains" type="hidden" value="" />
+          </div>
+        </div>
+
+        <div class="q-step" data-step="2" hidden>
+          <div class="q-title">Constraints</div>
+          <div class="q-help">These drive feasibility scoring and “doable vs stretch” classification.</div>
+
+          <label for="project_complexity_preference">Project Complexity Preference</label>
+          <select id="project_complexity_preference">
+            <option value="">Select complexity preference</option>
+            <option value="simple">Simple (quick implementation)</option>
+            <option value="moderate">Moderate (balanced)</option>
+            <option value="complex">Complex (research-level / advanced)</option>
+          </select>
+
+          <label for="time_available">Time Availability</label>
+          <select id="time_available">
+            <option value="">Select timeline</option>
+            <option value="short">Short (1-2 weeks)</option>
+            <option value="medium">Medium (3-6 weeks)</option>
+            <option value="long">Long (6+ weeks)</option>
+          </select>
+
+          <label for="team_or_individual">Team or Individual</label>
+          <select id="team_or_individual">
+            <option value="">Select mode</option>
+            <option value="solo">Solo</option>
+            <option value="team">Team (2-4 members)</option>
+          </select>
+
+          <label for="hardware_availability">Hardware Availability</label>
+          <select id="hardware_availability">
+            <option value="">Select hardware access</option>
+            <option value="none">No hardware</option>
+            <option value="basic">Basic (Arduino, sensors)</option>
+            <option value="advanced">Advanced (Raspberry Pi, GPUs, devices)</option>
+          </select>
+
+          <label for="preferred_project_type">Preferred Project Type</label>
+          <select id="preferred_project_type">
+            <option value="">Select project type</option>
+            <option value="application">Application (web/mobile)</option>
+            <option value="ml_model">ML model</option>
+            <option value="research">Research-oriented</option>
+            <option value="system">System-based (IoT / hardware)</option>
+          </select>
+
+          <label for="dataset_comfort">Dataset Comfort</label>
+          <select id="dataset_comfort">
+            <option value="">Select comfort level</option>
+            <option value="yes">Yes (clean + preprocess)</option>
+            <option value="somewhat">Somewhat</option>
+            <option value="ready_only">Prefer ready-to-use data</option>
+          </select>
+
+          <label for="learning_vs_execution">Learning vs Execution</label>
+          <select id="learning_vs_execution">
+            <option value="">Select priority</option>
+            <option value="learn">Learn new concepts</option>
+            <option value="build">Build something practical</option>
+            <option value="both">Both equally</option>
+          </select>
+
+          <label for="stretch_willingness">Stretch Willingness</label>
+          <select id="stretch_willingness">
+            <option value="">Select openness</option>
+            <option value="yes">Yes</option>
+            <option value="maybe">Maybe</option>
+            <option value="no">No</option>
+          </select>
+
+          <label for="experience_level">Experience Level (for feasibility)</label>
+          <select id="experience_level">
+            <option value="">Select level</option>
+            <option value="beginner" {% if profile and profile.experience_level=='beginner' %}selected{% endif %}>Beginner</option>
+            <option value="intermediate" {% if profile and profile.experience_level=='intermediate' %}selected{% endif %}>Intermediate</option>
+            <option value="advanced" {% if profile and profile.experience_level=='advanced' %}selected{% endif %}>Advanced</option>
+          </select>
+        </div>
+
+        <div class="q-actions">
+          <button class="btn ghost" id="qBackBtn" type="button">Back</button>
+          <button class="btn primary" id="qNextBtn" type="button">Next</button>
+          <button class="btn primary" id="qSubmitBtn" type="submit" hidden>Generate Recommendations</button>
+        </div>
+          </form>
+        </section>
+
+        <aside class="panel preview-panel" aria-hidden="true">
+          <h2>Profile Preview</h2>
+          <div class="preview-row">
+            <div class="preview-k">Interests</div>
+            <div id="pv_interests" class="preview-v">—</div>
+          </div>
+          <div class="preview-row">
+            <div class="preview-k">Domains</div>
+            <div id="pv_domains" class="preview-v">—</div>
+          </div>
+          <div class="preview-row">
+            <div class="preview-k">Experience</div>
+            <div id="pv_experience" class="preview-v">—</div>
+          </div>
+          <div class="preview-row">
+            <div class="preview-k">Time</div>
+            <div id="pv_time" class="preview-v">—</div>
+          </div>
+
+          <div class="preview-divider"></div>
+
+          <p class="preview-copy">
+            Your answers are converted into a semantic embedding (SBERT) and ranked using a hybrid scoring
+            function that includes feasibility constraints.
+          </p>
+
+          <div class="preview-chip-row" id="pv_skills"></div>
+        </aside>
+      </section>
+
+      <div id="questionnaireOverlay" class="loading-overlay" hidden>
+        <div class="loading-card">
+          <div class="spinner"></div>
+          <p>Generating project ideas for your profile…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="{{ url_for('static', filename='js/questionnaire.js') }}"></script>
+{% endblock %}
+

@@ -1,23 +1,36 @@
 {% extends "base.html" %}
 {% block title %}Sign Up | ProjectIQ{% endblock %}
 {% block content %}
-<main class="auth-page">
-  <section class="auth-card">
-    <h1>Create your account</h1>
-    <p>Build your student profile and start receiving recommendations.</p>
-    <form method="post" action="{{ url_for('auth.signup_post') }}">
-      <label>Full Name</label>
-      <input name="name" type="text" required />
-      <label>Email</label>
-      <input name="email" type="email" required />
-      <label>Password</label>
-      <input name="password" type="password" minlength="8" required />
-      <button class="btn primary" type="submit">Create Account</button>
-    </form>
-    <p class="auth-foot">
-      Already have an account?
-      <a href="{{ url_for('auth.login') }}">Login</a>
-    </p>
-  </section>
+<main class="landing-root auth-root">
+  <div class="landing-bg" aria-hidden="true"></div>
+  <div class="landing-shell auth-shell">
+    <nav class="landing-nav auth-nav">
+      <div class="brand-mark">
+        <span class="brand-dot"></span>
+        <span class="brand-text">ProjectIQ</span>
+      </div>
+      <a class="btn ghost" href="{{ url_for('auth.login') }}">Back to login</a>
+    </nav>
+
+    <section class="auth-card">
+      <div class="auth-head">
+        <h1>Create your account</h1>
+        <p>Build your student profile and start receiving project ideas.</p>
+      </div>
+      <form method="post" action="{{ url_for('auth.signup_post') }}">
+        <label>Full Name</label>
+        <input name="name" type="text" required />
+        <label>Email</label>
+        <input name="email" type="email" required />
+        <label>Password</label>
+        <input name="password" type="password" minlength="8" required />
+        <button class="btn primary" type="submit">Create Account</button>
+      </form>
+      <p class="auth-foot">
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Login</a>
+      </p>
+    </section>
+  </div>
 </main>
 {% endblock %}

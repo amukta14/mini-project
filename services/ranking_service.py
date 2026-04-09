@@ -25,6 +25,7 @@ class ScoredProject:
     feasibility_score: float
     score: float
     matched_skills: List[str]
+    feasibility_notes: List[str]
 
 
 def compute_skill_match(user_skills: List[str], required_skills: List[str]) -> Tuple[float, List[str]]:
@@ -38,11 +39,12 @@ def compute_skill_match(user_skills: List[str], required_skills: List[str]) -> T
     return float(score), matched
 
 
-def compute_feasibility_score(user_input: ProcessedInput, project: Dict) -> float:
+def compute_feasibility_score(user_input: ProcessedInput, project: Dict) -> tuple[float, List[str]]:
     project_difficulty = str(project.get("difficulty", "intermediate")).lower().strip()
     project_complexity = str(project.get("complexity", "medium")).lower().strip()
 
     score = 1.0
+    notes: List[str] = []
     user_exp = user_input.experience_level or "intermediate"
     user_time = user_input.time_available or "medium"
 
@@ -51,14 +53,24 @@ def compute_feasibility_score(user_input: ProcessedInput, project: Dict) -> floa
     if exp_idx < difficulty_idx:
         gap = difficulty_idx - exp_idx
         score -= 0.35 if gap >= 2 else 0.2
+        notes.append(
+            f"Difficulty '{project_difficulty}' is above your experience level '{user_exp}', so feasibility was penalized."
+        )
+    elif exp_idx > difficulty_idx:
+        notes.append("Your experience level is above the project difficulty, improving feasibility.")
 
     time_idx = TIME_COMPLEXITY_ORDER.get(user_time, 2)
     complexity_idx = PROJECT_COMPLEXITY_ORDER.get(project_complexity, 2)
     if time_idx < complexity_idx:
         gap = complexity_idx - time_idx
         score -= 0.3 if gap >= 2 else 0.15
+        notes.append(
+            f"Timeline '{user_time}' is shorter than project complexity '{project_complexity}', so feasibility was penalized."
+        )
+    elif time_idx > complexity_idx:
+        notes.append("Your available time matches (or exceeds) the project complexity, improving feasibility.")
 
-    return float(max(0.0, min(1.0, score)))
+    return float(max(0.0, min(1.0, score))), notes
 
 
 def rank_projects(
@@ -77,7 +89,7 @@ def rank_projects(
     for idx, project in enumerate(projects):
         required_skills = project.get("skills", [])
         skill_score, matched_skills = compute_skill_match(user_input.skills, required_skills)
-        feasibility_score = compute_feasibility_score(user_input, project)
+        feasibility_score, feasibility_notes = compute_feasibility_score(user_input, project)
         semantic_similarity = float(np.clip(semantic_scores[idx], 0.0, 1.0))
         final_score = (
             (weights["semantic"] * semantic_similarity)
@@ -93,6 +105,7 @@ def rank_projects(
                 feasibility_score=feasibility_score,
                 score=float(final_score),
                 matched_skills=matched_skills,
+                feasibility_notes=feasibility_notes,
             )
         )
 
@@ -108,6 +121,13 @@ def rank_projects(
             matched_skills=item.matched_skills,
             recommendation_type=recommendation_type,
             score=item.score,
+            score_breakdown={
+                "semantic": round(float(item.semantic_similarity), 4),
+                "skill": round(float(item.skill_match_score), 4),
+                "feasibility": round(float(item.feasibility_score), 4),
+                "weights": CONFIG.ranking_weights.as_dict(),
+            },
+            feasibility_notes=item.feasibility_notes,
         )
         results.append(result)
     return results

@@ -27,9 +27,17 @@ class AppConfig:
     model_name: str = "all-MiniLM-L6-v2"
     local_model_dir: Path = BASE_DIR / "models" / "all-MiniLM-L6-v2"
     embeddings_path: Path = (
-        BASE_DIR / "embedded_projects.json"
-        if (BASE_DIR / "embedded_projects.json").exists()
-        else BASE_DIR / "data" / "embedded_projects.json"
+        BASE_DIR / "embedded_projects_mega.json"
+        if (BASE_DIR / "embedded_projects_mega.json").exists()
+        else (
+            BASE_DIR / "embedded_projects_enriched.json"
+            if (BASE_DIR / "embedded_projects_enriched.json").exists()
+            else (
+                BASE_DIR / "embedded_projects.json"
+                if (BASE_DIR / "embedded_projects.json").exists()
+                else BASE_DIR / "data" / "embedded_projects.json"
+            )
+        )
     )
     top_k: int = 5
     ranking_weights: RankingWeights = field(default_factory=RankingWeights)

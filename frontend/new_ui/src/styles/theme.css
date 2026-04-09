@@ -1,0 +1,93 @@
+@layer base {
+  :root {
+    color-scheme: dark;
+    --navy: #0a192f;
+    --rust: #c75b12;
+    --ink: #e9eef6;
+    --mist: #9fb3c8;
+    --glass: rgba(10, 25, 47, 0.56);
+    --glass-strong: rgba(13, 28, 51, 0.82);
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-hero-gradient font-sans text-ink antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 95%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  a {
+    @apply transition-colors duration-300;
+  }
+
+  ::selection {
+    background: rgba(199, 91, 18, 0.32);
+    color: #f7f9fc;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.08);
+    @apply border border-white/10 shadow-panel backdrop-blur-2xl;
+  }
+
+  .glass-panel-strong {
+    background: linear-gradient(180deg, rgba(14, 29, 53, 0.86), rgba(10, 24, 44, 0.76));
+    @apply border border-white/10 shadow-panel backdrop-blur-2xl;
+  }
+
+  .section-title {
+    @apply text-sm font-semibold uppercase tracking-[0.3em] text-rust/85;
+  }
+
+  .field-label {
+    @apply mb-2 block text-sm font-medium text-ink;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-white\/8 {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .bg-white\/6 {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(159, 179, 200, 0.28);
+    border-radius: 999px;
+  }
+}

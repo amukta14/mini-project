@@ -65,6 +65,18 @@ class DataService:
         description = str(project.get("description", ""))
         summary = str(project.get("summary", ""))
         full_text = str(project.get("full_text", ""))
+        idea = project.get("project_idea") or {}
+        idea_fields = []
+        if isinstance(idea, dict):
+            idea_fields.extend(
+                [
+                    str(idea.get("use_case", "")),
+                    str(idea.get("industry_context", "")),
+                    str(idea.get("deliverables", "")),
+                    str(idea.get("evaluation_plan", "")),
+                    str(idea.get("deployment_plan", "")),
+                ]
+            )
         domains = " ".join(project.get("domain", []) if isinstance(project.get("domain"), list) else [project.get("domain", "")])
         skills = " ".join(project.get("skills", []))
-        return " ".join([title, description, summary, full_text, domains, skills]).strip()
+        return " ".join([title, description, summary, full_text, " ".join(idea_fields), domains, skills]).strip()

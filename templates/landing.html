@@ -1,33 +1,60 @@
 {% extends "base.html" %}
-{% block title %}Academic Project Intelligence Platform{% endblock %}
+{% block title %}ProjectIQ | Student Project Intelligence{% endblock %}
 {% block content %}
-<main class="landing">
-  <nav class="landing-nav">
-    <h1>ProjectIQ</h1>
-    <div>
-      <a class="btn ghost" href="{{ url_for('auth.login') }}">Login</a>
-      <a class="btn primary" href="{{ url_for('auth.signup') }}">Create Account</a>
-    </div>
-  </nav>
-  <section class="hero">
-    <div class="hero-copy">
-      <p class="kicker">Student-Centric Recommendation Engine</p>
-      <h2>Find academic projects that are relevant, feasible, and career-aligned.</h2>
-      <p>
-        ProjectIQ combines sentence embeddings, feasibility constraints, and hybrid ranking to recommend projects
-        that match your skill profile and interests.
-      </p>
-      <a class="btn primary" href="{{ url_for('auth.signup') }}">Get Started</a>
-    </div>
-    <div class="hero-panel">
-      <h3>Pipeline</h3>
-      <ol>
-        <li>Profile capture and normalization</li>
-        <li>Semantic understanding with SBERT</li>
-        <li>Constraint-aware filtering</li>
-        <li>Hybrid ranking and explanations</li>
-      </ol>
-    </div>
-  </section>
+<main class="landing-root">
+  <div class="landing-bg" aria-hidden="true"></div>
+  <div class="landing-shell">
+    <nav class="landing-nav">
+      <h1>ProjectIQ</h1>
+      <div>
+        <a class="btn ghost" href="{{ url_for('auth.login') }}">Login</a>
+        <a class="btn primary" href="{{ url_for('auth.signup') }}">Create Account</a>
+      </div>
+    </nav>
+
+    <section class="landing-hero">
+      <div class="landing-shape shape-1" aria-hidden="true"></div>
+      <div class="landing-shape shape-2" aria-hidden="true"></div>
+      <div class="landing-shape shape-3" aria-hidden="true"></div>
+
+      <div class="landing-hero-copy">
+        <p class="kicker">Student-Centric Project Intelligence</p>
+        <h2 class="landing-title">Find project ideas that are relevant, feasible, and genuinely useful.</h2>
+        <p class="landing-subtitle">
+          ProjectIQ uses sentence embeddings and a hybrid ranking model to generate tailored project plans
+          with clear steps, tech stack guidance, and dataset links.
+        </p>
+        <div class="landing-cta">
+          <a class="btn primary" href="{{ url_for('auth.signup') }}">Get started</a>
+          <a class="btn ghost" href="{{ url_for('auth.login') }}">Sign in</a>
+        </div>
+      </div>
+
+      <aside class="landing-flow-panel" aria-hidden="true">
+        <div class="landing-flow-track">
+          <div class="landing-flow-step active">
+            <span class="dot"></span>
+            <span class="label">Profile</span>
+          </div>
+          <div class="landing-flow-step">
+            <span class="dot"></span>
+            <span class="label">Embed</span>
+          </div>
+          <div class="landing-flow-step">
+            <span class="dot"></span>
+            <span class="label">Rank</span>
+          </div>
+          <div class="landing-flow-step">
+            <span class="dot"></span>
+            <span class="label">Recommend</span>
+          </div>
+        </div>
+        <div class="landing-flow-card">
+          <span class="flow-tag">live preview</span>
+          <p class="flow-line">&gt; generating top 5 projects…</p>
+        </div>
+      </aside>
+    </section>
+  </div>
 </main>
 {% endblock %}
