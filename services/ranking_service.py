@@ -1,5 +1,8 @@
+"""Legacy ranking (superseded by ``recommendation_engine`` for the ``/recommend`` API)."""
+
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
@@ -73,6 +76,51 @@ def compute_feasibility_score(user_input: ProcessedInput, project: Dict) -> tupl
     return float(max(0.0, min(1.0, score))), notes
 
 
+def _project_bucket(project: Dict) -> Tuple[str, str]:
+    slug = str(project.get("sector_slug") or "").strip().lower()
+    if not slug:
+        s = str(project.get("sector") or "").strip().lower()
+        slug = re.sub(r"[^a-z0-9]+", "-", s).strip("-") or "general"
+    hint = str(project.get("archetype_hint") or "").strip().lower()
+    return slug, hint
+
+
+def _select_diverse_scored(
+    scored: List[ScoredProject],
+    k: int,
+    max_per_bucket: int = 2,
+) -> List[ScoredProject]:
+    """Prefer high scores but avoid duplicate titles and limit repeats per sector+template."""
+    selected: List[ScoredProject] = []
+    seen_titles: set[str] = set()
+
+    def bucket_count(key: Tuple[str, str]) -> int:
+        return sum(1 for s in selected if _project_bucket(s.project) == key)
+
+    for item in scored:
+        if len(selected) >= k:
+            break
+        title = str(item.project.get("title") or "").strip()
+        if title in seen_titles:
+            continue
+        key = _project_bucket(item.project)
+        if bucket_count(key) >= max_per_bucket:
+            continue
+        selected.append(item)
+        seen_titles.add(title)
+
+    for item in scored:
+        if len(selected) >= k:
+            break
+        title = str(item.project.get("title") or "").strip()
+        if title in seen_titles:
+            continue
+        selected.append(item)
+        seen_titles.add(title)
+
+    return selected[:k]
+
+
 def rank_projects(
     user_input: ProcessedInput,
     query_embedding: np.ndarray,
@@ -110,7 +158,7 @@ def rank_projects(
         )
 
     scored.sort(key=lambda item: item.score, reverse=True)
-    top_projects = scored[: CONFIG.top_k]
+    top_projects = _select_diverse_scored(scored, CONFIG.top_k, max_per_bucket=2)
 
     results: List[Dict] = []
     for idx, item in enumerate(top_projects):

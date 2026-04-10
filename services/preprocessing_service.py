@@ -17,6 +17,7 @@ class ProcessedInput:
     experience_level: str
     time_available: str
     domain_preference: List[str]
+    sector_context: str
     project_complexity_preference: str
     team_or_individual: str
     hardware_availability: str
@@ -58,6 +59,8 @@ def process_user_input(payload: Dict[str, Any]) -> ProcessedInput:
     dataset_comfort_raw = payload.get("dataset_comfort", "")
     learning_vs_execution_raw = payload.get("learning_vs_execution", "")
     stretch_raw = payload.get("stretch_willingness", "")
+    sector_pick_raw = str(payload.get("sector_of_interest", "")).strip()
+    sector_other_raw = str(payload.get("sector_of_interest_other", "")).strip()
 
     if not isinstance(skills_raw, list):
         raise ValueError("skills must be a list")
@@ -89,6 +92,11 @@ def process_user_input(payload: Dict[str, Any]) -> ProcessedInput:
     learning_vs_execution = _normalize_text(str(learning_vs_execution_raw))
     stretch_willingness = _normalize_text(str(stretch_raw))
 
+    if sector_pick_raw.lower() == "other":
+        sector_context = _normalize_text(sector_other_raw)
+    else:
+        sector_context = _normalize_text(sector_pick_raw)
+
     if experience_level and experience_level not in CONFIG.experience_levels:
         raise ValueError(f"experience_level must be one of: {', '.join(CONFIG.experience_levels)}")
     if time_available and time_available not in CONFIG.time_availability:
@@ -98,6 +106,8 @@ def process_user_input(payload: Dict[str, Any]) -> ProcessedInput:
     semantic_parts.extend(normalized_skills)
     if interests:
         semantic_parts.append(interests)
+    if sector_context:
+        semantic_parts.append(sector_context)
     semantic_parts.extend([d.lower() for d in normalized_domains])
     semantic_parts.extend(
         [
@@ -118,6 +128,7 @@ def process_user_input(payload: Dict[str, Any]) -> ProcessedInput:
         experience_level=experience_level,
         time_available=time_available,
         domain_preference=normalized_domains,
+        sector_context=sector_context,
         project_complexity_preference=project_complexity_preference,
         team_or_individual=team_or_individual,
         hardware_availability=hardware_availability,

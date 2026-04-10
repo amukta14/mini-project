@@ -12,7 +12,12 @@ import { apiFetch } from '../lib/api'
 
 const getInitialAnswers = () =>
   questionnaireQuestions.reduce((accumulator, question) => {
-    accumulator[question.key] = question.type === 'multi' ? [] : question.type === 'slider' ? question.min : ''
+    if (question.type === 'multi') accumulator[question.key] = []
+    else if (question.type === 'slider') accumulator[question.key] = question.min
+    else accumulator[question.key] = ''
+    if (question.type === 'selectWithOther' && question.otherKey) {
+      accumulator[question.otherKey] = ''
+    }
     return accumulator
   }, {})
 
@@ -25,7 +30,15 @@ function QuestionnairePage() {
     () =>
       questionnaireQuestions.filter((question) => {
         const value = answers[question.key]
-        return Array.isArray(value) ? value.length > 0 : value !== ''
+        if (question.type === 'multi') return Array.isArray(value) && value.length > 0
+        if (question.type === 'slider') return value !== '' && value != null
+        if (question.type === 'selectWithOther') {
+          if (!value) return false
+          if (value === 'Other')
+            return String(answers[question.otherKey] || '').trim().length > 0
+          return true
+        }
+        return value !== ''
       }).length,
     [answers],
   )
@@ -60,7 +73,11 @@ function QuestionnairePage() {
             ? 'moderate'
             : 'simple'
 
-      const interests = String(answers.interestDomain || '').toLowerCase()
+      const sectorLabel =
+        answers.sectorInterest === 'Other'
+          ? String(answers.sectorInterestOther || '').trim()
+          : String(answers.sectorInterest || '').trim()
+      const interests = [answers.interestDomain, sectorLabel].filter(Boolean).join(' · ').toLowerCase()
 
       const payload = {
         skills,
@@ -70,6 +87,9 @@ function QuestionnairePage() {
         experience_level,
         time_available,
         domain_preference: domain,
+        sector_of_interest: answers.sectorInterest || '',
+        sector_of_interest_other:
+          answers.sectorInterest === 'Other' ? String(answers.sectorInterestOther || '').trim() : '',
         project_complexity_preference,
         team_or_individual,
         hardware_availability,
@@ -81,8 +101,9 @@ function QuestionnairePage() {
       }
 
       const data = await apiFetch('/recommend', { method: 'POST', body: payload })
-      sessionStorage.setItem('projectiq:lastRecommendations', JSON.stringify(data.recommendations || []))
-      navigate('/dashboard')
+      const recommendations = data.recommendations || []
+      sessionStorage.setItem('projectiq:lastRecommendations', JSON.stringify(recommendations))
+      navigate('/dashboard', { state: { recommendations } })
     } finally {
       setSubmitting(false)
     }
@@ -105,6 +126,36 @@ function QuestionnairePage() {
             </option>
           ))}
         </Input>
+      )
+    }
+
+    if (question.type === 'selectWithOther') {
+      const otherVal = answers[question.otherKey] || ''
+      return (
+        <div className="space-y-4">
+          <Input
+            as="select"
+            value={value}
+            onChange={(event) => {
+              handleChange(question.key, event.target.value)
+              if (event.target.value !== 'Other') handleChange(question.otherKey, '')
+            }}
+            placeholder={question.placeholder}
+          >
+            {question.options.map((option) => (
+              <option key={option} value={option} className="bg-navy text-white">
+                {option}
+              </option>
+            ))}
+          </Input>
+          {value === 'Other' ? (
+            <Input
+              placeholder={question.otherPlaceholder || 'Please specify'}
+              value={otherVal}
+              onChange={(event) => handleChange(question.otherKey, event.target.value)}
+            />
+          ) : null}
+        </div>
       )
     }
 
@@ -186,8 +237,11 @@ function QuestionnairePage() {
               key={question.key}
               index={index}
               title={question.label}
-              description="Answer thoughtfully so the recommendation engine can prioritize the most relevant project directions."
-              className={question.type === 'multi' ? 'lg:col-span-2' : ''}
+              description={
+                question.description ||
+                'Answer thoughtfully so the recommendation engine can prioritize the most relevant project directions.'
+              }
+              className={question.type === 'multi' || question.type === 'selectWithOther' ? 'lg:col-span-2' : ''}
             >
               {renderField(question)}
             </FormSection>

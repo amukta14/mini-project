@@ -1,0 +1,182 @@
+[
+  {
+    "title": "Diabetes Risk Prediction System",
+    "description": "Predict diabetes risk using patient data.",
+    "domain": ["Healthcare"],
+    "sector": "Healthcare",
+    "difficulty": "medium",
+    "dataset_name": "Pima Indians Diabetes",
+    "dataset_link": "https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database"
+  },
+  {
+    "title": "Heart Disease Prediction",
+    "description": "Predict heart disease likelihood from clinical data.",
+    "domain": ["Healthcare"],
+    "sector": "Healthcare",
+    "difficulty": "medium",
+    "dataset_name": "Heart Disease UCI",
+    "dataset_link": "https://archive.ics.uci.edu/ml/datasets/heart+Disease"
+  },
+  {
+    "title": "Crop Yield Prediction",
+    "description": "Estimate crop yield using environmental factors.",
+    "domain": ["Agriculture"],
+    "sector": "Agriculture",
+    "difficulty": "medium",
+    "dataset_name": "Crop Production India",
+    "dataset_link": "https://www.kaggle.com/datasets/abhinand05/crop-production-in-india"
+  },
+  {
+    "title": "Stock Price Forecasting",
+    "description": "Predict stock prices using historical trends.",
+    "domain": ["Finance"],
+    "sector": "Finance",
+    "difficulty": "hard",
+    "dataset_name": "Stock Market Dataset",
+    "dataset_link": "https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset"
+  },
+  {
+    "title": "Student Performance Predictor",
+    "description": "Predict student grades based on study habits.",
+    "domain": ["Education"],
+    "sector": "Education",
+    "difficulty": "easy",
+    "dataset_name": "Student Performance",
+    "dataset_link": "https://www.kaggle.com/datasets/uciml/student-alcohol-consumption"
+  },
+  {
+    "title": "Movie Recommendation Engine",
+    "description": "Recommend movies based on user preferences.",
+    "domain": ["Entertainment"],
+    "sector": "Entertainment",
+    "difficulty": "medium",
+    "dataset_name": "MovieLens",
+    "dataset_link": "https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset"
+  },
+  {
+    "title": "Fashion Product Recommender",
+    "description": "Suggest clothing items based on user style.",
+    "domain": ["Fashion"],
+    "sector": "Fashion",
+    "difficulty": "medium",
+    "dataset_name": "Fashion Products",
+    "dataset_link": "https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-small"
+  },
+  {
+    "title": "Fraud Detection System",
+    "description": "Detect fraudulent transactions.",
+    "domain": ["Finance"],
+    "sector": "Finance",
+    "difficulty": "hard",
+    "dataset_name": "Credit Card Fraud",
+    "dataset_link": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud"
+  },
+  {
+    "title": "Traffic Flow Prediction",
+    "description": "Predict traffic congestion patterns.",
+    "domain": ["Transportation"],
+    "sector": "Transportation",
+    "difficulty": "medium",
+    "dataset_name": "Traffic Volume",
+    "dataset_link": "https://www.kaggle.com/datasets/uciml/metro-interstate-traffic-volume"
+  },
+  {
+    "title": "Air Quality Monitoring",
+    "description": "Predict air pollution levels.",
+    "domain": ["Environment"],
+    "sector": "Environment",
+    "difficulty": "medium",
+    "dataset_name": "Air Quality UCI",
+    "dataset_link": "https://archive.ics.uci.edu/ml/datasets/Air+Quality"
+  },
+  {
+    "title": "Fake News Detection",
+    "description": "Classify fake vs real news articles.",
+    "domain": ["Journalism"],
+    "sector": "Journalism",
+    "difficulty": "medium",
+    "dataset_name": "Fake News Dataset",
+    "dataset_link": "https://www.kaggle.com/datasets/clementbisaillon/fake-and-real-news-dataset"
+  },
+  {
+    "title": "Spam Email Classifier",
+    "description": "Detect spam emails automatically.",
+    "domain": ["Cybersecurity"],
+    "sector": "Cybersecurity",
+    "difficulty": "easy",
+    "dataset_name": "Spam Dataset",
+    "dataset_link": "https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset"
+  },
+  {
+    "title": "Customer Churn Prediction",
+    "description": "Predict customer churn for telecom.",
+    "domain": ["Business"],
+    "sector": "Business",
+    "difficulty": "medium",
+    "dataset_name": "Telco Churn",
+    "dataset_link": "https://www.kaggle.com/datasets/blastchar/telco-customer-churn"
+  },
+  {
+    "title": "House Price Prediction",
+    "description": "Predict house prices based on features.",
+    "domain": ["Real Estate"],
+    "sector": "Real Estate",
+    "difficulty": "medium",
+    "dataset_name": "House Prices",
+    "dataset_link": "https://www.kaggle.com/c/house-prices-advanced-regression-techniques"
+  },
+  {
+    "title": "Wine Quality Classification",
+    "description": "Classify wine quality from chemical properties.",
+    "domain": ["Food Industry"],
+    "sector": "Food Industry",
+    "difficulty": "easy",
+    "dataset_name": "Wine Quality",
+    "dataset_link": "https://archive.ics.uci.edu/ml/datasets/Wine+Quality"
+  },
+  {
+    "title": "Emotion Detection from Text",
+    "description": "Detect emotions in user text.",
+    "domain": ["NLP"],
+    "sector": "NLP",
+    "difficulty": "medium",
+    "dataset_name": "Emotion Dataset",
+    "dataset_link": "https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp"
+  },
+  {
+    "title": "Handwritten Digit Recognition",
+    "description": "Recognize digits using images.",
+    "domain": ["Computer Vision"],
+    "sector": "Computer Vision",
+    "difficulty": "easy",
+    "dataset_name": "MNIST",
+    "dataset_link": "https://www.kaggle.com/datasets/oddrationale/mnist-in-csv"
+  },
+  {
+    "title": "Plant Disease Detection",
+    "description": "Detect plant diseases from images.",
+    "domain": ["Agriculture"],
+    "sector": "Agriculture",
+    "difficulty": "medium",
+    "dataset_name": "PlantVillage",
+    "dataset_link": "https://www.kaggle.com/datasets/emmarex/plantdisease"
+  },
+  {
+    "title": "Loan Approval Prediction",
+    "description": "Predict loan approval status.",
+    "domain": ["Finance"],
+    "sector": "Finance",
+    "difficulty": "easy",
+    "dataset_name": "Loan Prediction",
+    "dataset_link": "https://www.kaggle.com/datasets/altruistdelhite04/loan-prediction-problem-dataset"
+  },
+  {
+    "title": "Sentiment Analysis on Reviews",
+    "description": "Analyze sentiment of product reviews.",
+    "domain": ["E-commerce"],
+    "sector": "E-commerce",
+    "difficulty": "medium",
+    "dataset_name": "Amazon Reviews",
+    "dataset_link": "https://www.kaggle.com/datasets/bittlingmayer/amazonreviews"
+  }
+]

@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from urllib.parse import quote_plus
 
 import numpy as np
 
@@ -215,7 +216,7 @@ def build_idea(
         )
     )
     deliverables = [
-        "Production-style data pipeline with validation checks",
+        "Production-grade data pipeline with validation checks",
         "Model + evaluation report with segment error analysis",
         "Interactive demo (dashboard/API) with role-based views",
     ]
@@ -254,13 +255,21 @@ def build_idea(
     dataset_options = dataset_options[: min(3, len(dataset_options))]
     chosen = dataset_options[0] if dataset_options else None
 
-    dataset_link = chosen["link"] if chosen else ""
-    dataset_name = chosen["name"] if chosen else ""
+    dataset_link = str(chosen["link"]).strip() if chosen else ""
+    dataset_name = str(chosen["name"]).strip() if chosen else ""
     dq = [q.format(sector=sector) for q in template.dataset_queries]
+
+    if not dataset_link and dq:
+        dataset_name = dq[0]
+        dataset_link = f"https://www.kaggle.com/search?q={quote_plus(dq[0])}"
+    if not dataset_name:
+        dataset_name = dq[0] if dq else f"{sector} open dataset"
+    if not dataset_link:
+        dataset_link = f"https://www.kaggle.com/search?q={quote_plus(dataset_name)}"
 
     return {
         "title": title,
-        "dataset_name": dataset_name or f"{sector} dataset (source required)",
+        "dataset_name": dataset_name,
         "dataset_link": dataset_link,
         "dataset_options": dataset_options,
         "dataset_queries": dq,

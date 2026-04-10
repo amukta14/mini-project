@@ -5,3 +5,4 @@ __pycache__/
 agent-tools/
 terminals/
 *.log
+app.db

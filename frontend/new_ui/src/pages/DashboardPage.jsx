@@ -1,12 +1,21 @@
 import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import AppShell from '../components/AppShell'
 import Button from '../components/Button'
 import Card from '../components/Card'
 import { apiFetch } from '../lib/api'
 
+function datasetHref(project) {
+  const link = project.dataset?.link?.trim()
+  if (link) return link
+  const name = project.dataset?.name?.trim()
+  if (name) return `https://www.kaggle.com/search?q=${encodeURIComponent(name)}`
+  return ''
+}
+
 function ProjectCard({ project, delay }) {
+  const dsUrl = datasetHref(project)
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -25,6 +34,16 @@ function ProjectCard({ project, delay }) {
           </div>
           <h3 className="mt-5 text-2xl font-semibold text-white">{project.title}</h3>
           <p className="mt-4 flex-1 text-sm leading-7 text-mist">{project.description}</p>
+          {dsUrl ? (
+            <a
+              href={dsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex max-w-full items-center gap-2 text-sm font-medium text-rust underline decoration-rust/40 underline-offset-4 hover:text-orange-200"
+            >
+              <span className="truncate">Dataset: {project.dataset?.name || 'Open dataset'}</span>
+            </a>
+          ) : null}
           <div className="mt-6 flex items-center gap-2 text-sm font-medium text-rust">
             <span className="h-2 w-2 rounded-full bg-rust" />
             Explore fit analysis
@@ -37,6 +56,7 @@ function ProjectCard({ project, delay }) {
 
 function DashboardPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [me, setMe] = useState(null)
   const [recs, setRecs] = useState([])
 
@@ -48,6 +68,17 @@ function DashboardPage() {
         return
       }
       setMe(status)
+      const fromNav = location.state && Array.isArray(location.state.recommendations) ? location.state.recommendations : null
+      if (fromNav && fromNav.length) {
+        setRecs(fromNav)
+        try {
+          sessionStorage.setItem('projectiq:lastRecommendations', JSON.stringify(fromNav))
+        } catch {
+          /* ignore quota */
+        }
+        navigate(location.pathname, { replace: true, state: {} })
+        return
+      }
       try {
         const raw = sessionStorage.getItem('projectiq:lastRecommendations')
         setRecs(raw ? JSON.parse(raw) : [])
@@ -55,7 +86,7 @@ function DashboardPage() {
         setRecs([])
       }
     })()
-  }, [navigate])
+  }, [navigate, location.pathname, location.state])
 
   const profileHighlights = useMemo(() => {
     if (!me?.student_name) return ['Academic Projects', 'Personalized Matching', 'Professional Delivery']
@@ -117,6 +148,7 @@ function DashboardPage() {
                 domain: project.domain,
                 difficulty: project.difficulty,
                 description: project.project_description || project.problem_statement || '',
+                dataset: project.dataset,
               }}
               delay={index * 0.08}
             />
@@ -140,6 +172,7 @@ function DashboardPage() {
                 domain: project.domain,
                 difficulty: project.difficulty,
                 description: project.project_description || project.problem_statement || '',
+                dataset: project.dataset,
               }}
               delay={0.18 + index * 0.08}
             />

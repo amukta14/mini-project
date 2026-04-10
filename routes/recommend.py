@@ -10,12 +10,11 @@ from flask import Blueprint, jsonify, request, session
 from core.db import db
 from models import StudentProfile
 
+from recommendation_engine.pipeline import run_recommendation_pipeline
 from services.data_service import DataService
 from services.domain_service import filter_projects_by_domain
-from services.embedding_service import create_query_embedding
 from services.filtering_service import apply_feasibility_filters
 from services.preprocessing_service import process_user_input
-from services.ranking_service import rank_projects
 
 
 recommend_bp = Blueprint("recommend", __name__)
@@ -51,8 +50,7 @@ def recommend_projects() -> tuple[Any, int]:
         index_map = {id(project): idx for idx, project in enumerate(projects)}
         filtered_embeddings = np.vstack([project_embeddings[index_map[id(project)]] for project in filtered_projects])
 
-        query_embedding = create_query_embedding(user_input.semantic_query)
-        recommendations = rank_projects(user_input, query_embedding, filtered_projects, filtered_embeddings)
+        recommendations = run_recommendation_pipeline(user_input, filtered_projects, filtered_embeddings)
 
         return jsonify({"recommendations": recommendations}), HTTPStatus.OK
     except ValueError as exc:

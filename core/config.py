@@ -8,6 +8,20 @@ from typing import Dict, List
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def _default_embeddings_path() -> Path:
+    """Prefer small curated catalog when present; otherwise mega/enriched embedded JSON."""
+    curated = BASE_DIR / "curated_projects.json"
+    if curated.exists():
+        return curated
+    if (BASE_DIR / "embedded_projects_mega.json").exists():
+        return BASE_DIR / "embedded_projects_mega.json"
+    if (BASE_DIR / "embedded_projects_enriched.json").exists():
+        return BASE_DIR / "embedded_projects_enriched.json"
+    if (BASE_DIR / "embedded_projects.json").exists():
+        return BASE_DIR / "embedded_projects.json"
+    return BASE_DIR / "data" / "embedded_projects.json"
+
+
 @dataclass(frozen=True)
 class RankingWeights:
     semantic: float = 0.6
@@ -26,34 +40,30 @@ class RankingWeights:
 class AppConfig:
     model_name: str = "all-MiniLM-L6-v2"
     local_model_dir: Path = BASE_DIR / "models" / "all-MiniLM-L6-v2"
-    embeddings_path: Path = (
-        BASE_DIR / "embedded_projects_mega.json"
-        if (BASE_DIR / "embedded_projects_mega.json").exists()
-        else (
-            BASE_DIR / "embedded_projects_enriched.json"
-            if (BASE_DIR / "embedded_projects_enriched.json").exists()
-            else (
-                BASE_DIR / "embedded_projects.json"
-                if (BASE_DIR / "embedded_projects.json").exists()
-                else BASE_DIR / "data" / "embedded_projects.json"
-            )
-        )
-    )
-    top_k: int = 5
+    embeddings_path: Path = field(default_factory=_default_embeddings_path)
+    top_k: int = 12
     ranking_weights: RankingWeights = field(default_factory=RankingWeights)
     supported_domains: List[str] = field(
         default_factory=lambda: [
             "Artificial Intelligence",
             "Machine Learning",
             "Data Science",
+            "Data Engineering",
             "Web Development",
             "Mobile Development",
-            "IoT",
-            "Cybersecurity",
             "Cloud Computing",
-            "Blockchain",
+            "DevOps",
+            "MLOps",
+            "Cybersecurity",
+            "IoT",
+            "Embedded Systems",
             "NLP",
             "Computer Vision",
+            "Blockchain",
+            "Software Engineering",
+            "Game Development",
+            "UI/UX Design",
+            "Robotics",
             "Education",
         ]
     )
